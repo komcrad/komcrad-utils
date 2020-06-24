@@ -44,7 +44,7 @@
 (defn add-parents [parent m]
   (reduce-kv
     (fn [m k v]
-      (assoc m (apply conj (->vec parent) (->vec k)) v))
+      (assoc m (into [] (flatten [parent k])) v))
     {} m))
 
 (defn remove-top-level [m]
@@ -56,15 +56,22 @@
     {} m))
 
 (defn map->flat-paths [m]
-  (clojure.walk/postwalk
-    #(if (map? %)
-      (remove-top-level %)
-      %)
-    m))
+  (clojure.walk/postwalk #(if (map? %) (remove-top-level %) %) m))
+
+(defn expand-paths [m]
+  (reduce-kv
+    (fn [m k v]
+      (assoc-in m k v))
+    {} m))
+
+(defn flat-paths->map [m]
+  (clojure.walk/postwalk #(if (map? %) (expand-paths %) %) m))
 
 (comment
+  (flat-paths->map 
   (map->flat-paths
     {:person {:name "bob"
               :age 34
               :children [{:person {:name "james" :age 12}}
-                         {:person {:name "john" :age 15}}]}}))
+                         {:person {:name "john" :age 15}}]}
+     :name "bob"})))
