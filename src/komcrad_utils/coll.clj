@@ -37,3 +37,34 @@
   (->> (into [] s)
       permutations
       (map clojure.string/join)))
+
+(defn ->vec [x]
+  (if (vector? x) x (vector x)))
+
+(defn add-parents [parent m]
+  (reduce-kv
+    (fn [m k v]
+      (assoc m (apply conj (->vec parent) (->vec k)) v))
+    {} m))
+
+(defn remove-top-level [m]
+  (reduce-kv
+    (fn [m k v]
+      (if (map? v)
+        (merge m (add-parents k v))
+        (assoc m (->vec k) v)))
+    {} m))
+
+(defn map->flat-paths [m]
+  (clojure.walk/postwalk
+    #(if (map? %)
+      (remove-top-level %)
+      %)
+    m))
+
+(comment
+  (map->flat-paths
+    {:person {:name "bob"
+              :age 34
+              :children [{:person {:name "james" :age 12}}
+                         {:person {:name "john" :age 15}}]}}))
