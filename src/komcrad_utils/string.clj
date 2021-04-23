@@ -45,6 +45,9 @@
   (let  [rows  (take rows  (repeatedly  (fn  []  (take columns  (repeatedly  (fn  []  (rand-word 5)))))))]
     (map  (fn  [x]  (clojure.string/join "," x)) rows)))
 
+(defn unicode-of [s]
+  (map #(format "\\u%04x" (int %)) s))
+
 (comment
   ; generates a 1.7Gb file. It's quite slow
   (run! #(spit "/tmp/test.csv" (str % "\n") :append true) (rand-csv 100 3000000))
