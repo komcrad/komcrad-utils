@@ -1,4 +1,4 @@
-(defproject komcrad-utils "0.12.0"
+(defproject komcrad-utils "0.13.0-SNAPSHOT"
   :description "komcrad's utilities"
   :url "https://github.com/komcrad/komcrad-utils"
   :license {:name "GNU Lesser General Public License"
@@ -8,4 +8,5 @@
                  [nrepl "0.7.0"]
                  [com.taoensso/nippy "3.1.1"]
                  [org.clojure/data.csv "1.0.0"]
-                 [org.exupero/clipboard "0.1.0"]])
+                 [org.exupero/clipboard "0.1.0"]
+                 [org.clojure/core.memoize "1.0.250"]])
