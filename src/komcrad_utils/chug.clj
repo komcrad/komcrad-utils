@@ -31,9 +31,9 @@
 
 (defn read-results [label]
   (map
-    #(let [res (nip/thaw-from-file %)]
-       (or (:err res) (:result res)))
-    (rest (file-seq (io/file (working-dir label))))))
+   #(let [res (nip/thaw-from-file %)]
+      (or (:err res) (:result res)))
+   (rest (file-seq (io/file (working-dir label))))))
 
 (defn run-this [label f coll]
   (run! #(freeze-or-read label f %) coll))
