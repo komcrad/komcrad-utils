@@ -1,4 +1,4 @@
-(defproject komcrad-utils "0.13.0-SNAPSHOT"
+(defproject komcrad-utils "0.12.1"
   :description "komcrad's utilities"
   :url "https://github.com/komcrad/komcrad-utils"
   :license {:name "GNU Lesser General Public License"
