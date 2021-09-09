@@ -24,10 +24,10 @@
     (catch Exception e nil)))
 
 (defn freeze-or-read [label f x]
-  (let [res (read-frozen-result (working-dir label) x)]
+  (let [res (read-frozen-result label x)]
     (cond
       (or (nil? res) (:err res)) (freeze-result (working-dir label) f x)
-      :else (freeze-result (working-dir label) f x))))
+      :else res)))
 
 (defn read-results [label]
   (map
@@ -42,5 +42,3 @@
   (do
     (run-this "thing" inc (range 10000))
     (sort (read-results "thing"))))
-
-

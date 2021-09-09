@@ -9,4 +9,5 @@
                  [com.taoensso/nippy "3.1.1"]
                  [org.clojure/data.csv "1.0.0"]
                  [org.exupero/clipboard "0.1.0"]
-                 [org.clojure/core.memoize "1.0.250"]])
+                 [org.clojure/core.memoize "1.0.250"]]
+  :profiles {:dev {:dependencies [[circleci/bond "0.6.0"]]}})
