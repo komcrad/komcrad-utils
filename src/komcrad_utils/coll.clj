@@ -38,6 +38,38 @@
        permutations
        (map clojure.string/join)))
 
+(defn repetitions [coll]
+  (loop [coll coll result []]
+    (if (empty? coll)
+      result
+      (recur (rest coll)
+             (conj result
+                   (apply * (map count (rest coll))))))))
+
+(defn mk-cycles [coll]
+  (let [repeats (repetitions coll)]
+    (map-indexed
+     (fn [i e]
+       (if (= 0 i)
+         (mapcat #(repeat (get repeats i) %) e)
+         (cycle (mapcat #(repeat (get repeats i) %) e))))
+     coll)))
+
+(defn combos [coll]
+  (let [cycles (mk-cycles coll)]
+    (map-indexed
+     (fn [idx elm]
+       (map #(nth % idx) cycles))
+     (first cycles))))
+
+(comment
+  (map
+   #(clojure.string/join "" %)
+   (combos [[1 2] [3 4] [5 6 7 8]]))
+  (map #(take 10 %)
+       (mk-cycles
+        [[1 2] [3 4] [4 5]])))
+
 (defn ->vec [x]
   (if (vector? x) x (vector x)))
 
